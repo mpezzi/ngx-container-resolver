@@ -1,0 +1,58 @@
+<h2>
+  Apple Container
+</h2>
+
+<h3>
+  Variation #1:
+</h3>
+
+<ngx-container-resolver
+  [changes]="resolver.changes | async"
+  [data]="data"
+  [error]="error"
+  [loading]="loading"
+>
+  <ng-template #data let-data="data">
+    <app-apple [data]="data"></app-apple>
+  </ng-template>
+  <ng-template #error let-error="error">
+    There was an error in variation #1: {{ error.value }}
+  </ng-template>
+  <ng-template #loading>
+    Loading Apple Variation #1 ...
+  </ng-template>
+</ngx-container-resolver>
+
+<h3>
+  Variation #2:
+</h3>
+
+<ngx-container-resolver
+  *ngIf="resolver.changes | async; let state;"
+  [changes]="resolver.changes | async"
+  [data]="data"
+  [error]="error"
+  [loading]="loading"
+>
+  <ng-template #data>
+    <app-apple [data]="state.data"></app-apple>
+  </ng-template>
+  <ng-template #error>
+    There was an error in variation #2: {{ state.error.value }}
+  </ng-template>
+  <ng-template #loading>
+    Loading Apple Variation #2 ...
+  </ng-template>
+</ngx-container-resolver>
+
+<button (click)="reload()">
+  Reload
+</button>
+
+<button (click)="addOrange()">
+  Add Orange
+</button>
+
+<button (click)="removeOrange()">
+  Remove Orange
+</button>
