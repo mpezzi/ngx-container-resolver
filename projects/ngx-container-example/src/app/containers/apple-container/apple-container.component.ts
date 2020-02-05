@@ -21,9 +21,9 @@ export class AppleContainerComponent implements OnInit, OnDestroy {
   public resolver: Resolver<AppleContainerComponentData>;
 
   /**
-   * Holds listener.
+   * Holds events.
    */
-  public listener: Subscription;
+  public events: Subscription;
 
   /**
    * Constructor.
@@ -57,7 +57,7 @@ export class AppleContainerComponent implements OnInit, OnDestroy {
 
     });
 
-    this.listener = this.container.events.pipe(
+    this.events = this.container.events.pipe(
       ofInstance(
         AppleAddedEvent,
         AppleRemovedEvent,
@@ -76,7 +76,7 @@ export class AppleContainerComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
 
     this.resolver.unsubscribe();
-    this.listener.unsubscribe();
+    this.events.unsubscribe();
 
   }
 

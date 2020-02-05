@@ -21,7 +21,7 @@ export class OrangeContainerComponent implements OnInit, OnDestroy {
   public resolver: Resolver<OrangeContainerComponentData>;
 
   /**
-   * Holds listener.
+   * Holds events.
    */
   public events: Subscription;
 
