@@ -49,11 +49,13 @@ export class ContainerService {
   /**
    * Destroy resolver.
    */
-  public destroyResolver(key: string): void {
+  public destroyResolver(key: string): boolean {
 
-    this.resolvers.delete(key);
+    const result = this.resolvers.delete(key);
 
     this.updateKeys();
+
+    return result;
 
   }
 
@@ -89,8 +91,8 @@ export class ContainerService {
           map(
             changes => ({
               loading: changes.length ? changes.some(change => change.loading) : false
-            })
-          )
+            }),
+          ),
         ),
       ),
       startWith({

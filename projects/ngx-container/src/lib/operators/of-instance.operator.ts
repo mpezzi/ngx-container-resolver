@@ -1,10 +1,12 @@
-import { Observable } from 'rxjs';
+import { MonoTypeOperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-export const ofInstance = (...args: any[]) => <T>(source: Observable<T>) => (
-  source.pipe(
-    filter(
-      e => args.some(a => e instanceof a)
-    )
-  )
-);
+export function ofInstance<T>(
+  ...instances: any[]
+): MonoTypeOperatorFunction<T> {
+  return filter(
+    i => instances.some(
+      instance => i instanceof instance,
+    ),
+  );
+}

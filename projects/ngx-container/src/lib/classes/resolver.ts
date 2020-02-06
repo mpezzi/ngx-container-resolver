@@ -10,7 +10,7 @@ export class Resolver<T> {
   private changes$: BehaviorSubject<ResolverChanges<T>> = new BehaviorSubject<ResolverChanges<T>>({
     data: null,
     error: null,
-    loading: true,
+    loading: false,
   });
 
   /**
