@@ -1,24 +1,161 @@
-# NgxContainer
+# ngx-container-resolver
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.14.
+[![Build Status](https://travis-ci.org/mpezzi/ngx-container-resolver.svg?branch=master)](https://travis-ci.org/mpezzi/ngx-container-resolver)
 
-## Code scaffolding
+A container library for Angular for handling loading of asynchronous data into components.
 
-Run `ng generate component component-name --project ngx-container-resolver` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-container-resolver`.
-> Note: Don't forget to add `--project ngx-container-resolver` or else it will be added to the default project in your `angular.json` file. 
+_Note: This is a proof-of-concept library at this point and is not recommended for production._
 
-## Build
+## Installation
 
-Run `ng build ngx-container-resolver` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
+npm install ngx-container-resolver --save
+```
 
-## Publishing
+## Usage
 
-After building your library with `ng build ngx-container-resolver`, go to the dist folder `cd dist/ngx-container-resolver` and run `npm publish`.
+Add `NgxContainerResolverModule.forRoot()` to your AppModule imports
 
-## Running unit tests
+```typescript
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgxContainerResolverModule } from 'ngx-container-resolver';
 
-Run `ng test ngx-container-resolver` to execute the unit tests via [Karma](https://karma-runner.github.io).
+@NgModule({
+  imports: [
+    BrowserModule,
+    CommonModule,
+    HttpClientModule,
+    NgxContainerResolverModule.forRoot(),
+  ],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
+})
+export class AppModule { }
+```
 
-## Further help
+Inject the `ContainerService` into your container components, create a new resolver, and pass the `resolver.changes` observable to `<ngx-container-resolver [changes]="resolver.changes | async"></ngx-container-resolver>` component. This will handle displaying the loaded, error, and loading states in your component. You can override the default templates provided by the components.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Resolver, ContainerService, ofInstance } from 'ngx-container-resolver';
+import { TodoAdded, TodoRemoved, TodoReload } from '../events';
+
+@Component({
+  selector: 'my-container',
+  template: `
+    <button (click)="reload()">
+      Reload
+    </button>
+    <ngx-container-resolver [changes]="resolver.changes | async" [data]="data" [error]="error">
+      <ng-template #data let-data="data">
+        <app-todo-list [todos]="data"></app-todo-list>
+      </ng-template>
+      <ng-template #error let-error="error">
+        There was an error: {{ error.message }}
+      </ng-template>
+    </ngx-container-resolver>
+  `,
+})
+export class MyContainerComponent implements OnInit, OnDestroy {
+
+  /**
+   * Holds resolver.
+   */
+  public resolver: Resolver<MyContainerComponentData>;
+
+  /**
+   * Holds events subscription.
+   */
+  public events: Subscription;
+
+  /**
+   * Constructor.
+   */
+  public constructor(
+    private readonly http: HttpClient,
+    private readonly container: ContainerService,
+  ) { }
+
+  /**
+   * On Init.
+   */
+  public ngOnInit(): void {
+
+    this.resolver = this.container.createResolver<MyContainerComponentData>(
+      (params: any = {}) => this.http.get('/todos', { params }),
+    );
+
+    this.events = this.container.events.pipe(
+      ofInstance(
+        TodoAdded,
+        TodoRemoved,
+        TodoReload,
+      ),
+    ).subscribe(
+      event => this.resolver.load({ query: 'param' }),
+    );
+
+    this.resolver.load();
+
+  }
+
+  /**
+   * On Destroy.
+   */
+  public ngOnDestroy(): void {
+
+    this.events.unsubscribe();
+    this.resolver.unsubscribe();
+
+  }
+
+  /**
+   * Reload.
+   */
+  public reload(): Promise<MyContainerComponentData> {
+
+    return this.resolver.load();
+
+  }
+
+}
+```
+
+Use the `ContainerService` to reload resolvers from other container components or services
+
+```typescript
+import { Component } from '@angular/core';
+import { ContainerService } from 'ngx-container-resolver';
+import { TodoReload } from '../events';
+
+@Component({
+  selector: 'my-other-container',
+  template: `
+    <button (click)="reload()">
+      Reload
+    </button>
+  `,
+})
+export class MyOtherContainerComponent {
+
+  /**
+   * Constructor.
+   */
+  public constructor(
+    private readonly container: ContainerService,
+  ) { }
+
+  /**
+   * Reload.
+   */
+  public reload(): void {
+
+    this.container.emit(new TodoReload());
+
+  }
+
+}
+```
