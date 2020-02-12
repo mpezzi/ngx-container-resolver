@@ -1,4 +1,5 @@
 import { BehaviorSubject, Observable, isObservable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { ResolverChanges, ResolverLoader } from '../interfaces';
 
@@ -46,7 +47,7 @@ export class Resolver<T> {
         let data = await this.loader(...args);
 
         if (isObservable(data)) {
-          data = await data.toPromise();
+          data = await data.pipe(take(1)).toPromise();
         }
 
         this.changes$.next({
