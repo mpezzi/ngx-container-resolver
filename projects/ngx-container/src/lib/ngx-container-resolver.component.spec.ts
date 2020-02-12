@@ -19,7 +19,7 @@ describe('ContainerResolverComponent', () => {
     Data = '.ngx-container-resolver__data',
     Error = '.ngx-container-resolver__error',
     Loading = '.ngx-container-resolver__loading',
-    LoadingFirst = '.ngx-container-resolver__loading-first',
+    Reloading = '.ngx-container-resolver__reloading',
     Debug = '.ngx-container-resolver__debug',
   }
 
@@ -27,7 +27,7 @@ describe('ContainerResolverComponent', () => {
     Success = 'ngx-container-resolver--success',
     Failure = 'ngx-container-resolver--failure',
     Loading = 'ngx-container-resolver--loading',
-    LoadingFirst = 'ngx-container-resolver--loading--first',
+    Reloading = 'ngx-container-resolver--reloading',
   }
 
   @Component({
@@ -37,7 +37,10 @@ describe('ContainerResolverComponent', () => {
         [data]="overrideDataTemplate ? data : null"
         [error]="overrideErrorTemplate ? error : null"
         [loading]="overrideLoadingTemplate ? loading : null"
+        [reloading]="overrideReloadingTemplate ? reloading : null"
         [loadingLabel]="loadingLabel"
+        [reloadingLabel]="reloadingLabel"
+        [reloadingPosition]="reloadingPosition"
         [debug]="debug"
       >
         <ng-template #data let-data="data">
@@ -46,8 +49,11 @@ describe('ContainerResolverComponent', () => {
         <ng-template #error let-error="error">
           The error is: {{ error.message }}
         </ng-template>
-        <ng-template #loading let-loading="loading">
+        <ng-template #loading>
           Loading Override ...
+        </ng-template>
+        <ng-template #reloading>
+          Reloading Override ...
         </ng-template>
       </ngx-container-resolver>
     `
@@ -56,8 +62,11 @@ describe('ContainerResolverComponent', () => {
     @Input() overrideDataTemplate = true;
     @Input() overrideErrorTemplate = true;
     @Input() overrideLoadingTemplate = true;
+    @Input() overrideReloadingTemplate = true;
     @Input() changes: ResolverChanges<any>;
     @Input() loadingLabel: string;
+    @Input() reloadingLabel: string;
+    @Input() reloadingPosition: 'above' | 'below' = 'below';
     @Input() debug: boolean;
   }
 
@@ -101,6 +110,12 @@ describe('ContainerResolverComponent', () => {
         .toBeTruthy();
       expect(el(fixture, ClassElement.Data).nativeElement.textContent.trim())
         .toEqual('The data is: test');
+      expect(el(fixture, ClassElement.Error))
+        .toBeFalsy();
+      expect(el(fixture, ClassElement.Loading))
+        .toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading))
+        .toBeFalsy();
 
       expect(el(fixture, ClassElement.Container).nativeElement)
         .toHaveClass(ClassModifier.Success);
@@ -109,7 +124,7 @@ describe('ContainerResolverComponent', () => {
       expect(el(fixture, ClassElement.Container).nativeElement)
         .not.toHaveClass(ClassModifier.Loading);
       expect(el(fixture, ClassElement.Container).nativeElement)
-        .not.toHaveClass(ClassModifier.LoadingFirst);
+        .not.toHaveClass(ClassModifier.Reloading);
 
     });
 
@@ -131,6 +146,12 @@ describe('ContainerResolverComponent', () => {
         .toBeTruthy();
       expect(el(fixture, ClassElement.Data).nativeElement.textContent)
         .toContain(JSON.stringify(component.changes.data, null, 2));
+      expect(el(fixture, ClassElement.Error))
+        .toBeFalsy();
+      expect(el(fixture, ClassElement.Loading))
+        .toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading))
+        .toBeFalsy();
 
       expect(el(fixture, ClassElement.Container).nativeElement)
         .toHaveClass(ClassModifier.Success);
@@ -139,7 +160,7 @@ describe('ContainerResolverComponent', () => {
       expect(el(fixture, ClassElement.Container).nativeElement)
         .not.toHaveClass(ClassModifier.Loading);
       expect(el(fixture, ClassElement.Container).nativeElement)
-        .not.toHaveClass(ClassModifier.LoadingFirst);
+        .not.toHaveClass(ClassModifier.Reloading);
 
     });
 
@@ -161,10 +182,16 @@ describe('ContainerResolverComponent', () => {
 
       fixture.detectChanges();
 
+      expect(el(fixture, ClassElement.Data))
+        .toBeFalsy();
       expect(el(fixture, ClassElement.Error))
         .toBeTruthy();
       expect(el(fixture, ClassElement.Error).nativeElement.textContent.trim())
         .toEqual('The error is: test');
+      expect(el(fixture, ClassElement.Loading))
+        .toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading))
+        .toBeFalsy();
 
       expect(el(fixture, ClassElement.Container).nativeElement)
         .not.toHaveClass(ClassModifier.Success);
@@ -173,7 +200,7 @@ describe('ContainerResolverComponent', () => {
       expect(el(fixture, ClassElement.Container).nativeElement)
         .not.toHaveClass(ClassModifier.Loading);
       expect(el(fixture, ClassElement.Container).nativeElement)
-        .not.toHaveClass(ClassModifier.LoadingFirst);
+        .not.toHaveClass(ClassModifier.Reloading);
 
     });
 
@@ -191,10 +218,16 @@ describe('ContainerResolverComponent', () => {
 
       fixture.detectChanges();
 
+      expect(el(fixture, ClassElement.Data))
+        .toBeFalsy();
       expect(el(fixture, ClassElement.Error))
         .toBeTruthy();
       expect(el(fixture, ClassElement.Error).nativeElement.textContent)
         .toContain(JSON.stringify(component.changes.error, null, 2));
+      expect(el(fixture, ClassElement.Loading))
+        .toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading))
+        .toBeFalsy();
 
       expect(el(fixture, ClassElement.Container).nativeElement)
         .not.toHaveClass(ClassModifier.Success);
@@ -203,7 +236,7 @@ describe('ContainerResolverComponent', () => {
       expect(el(fixture, ClassElement.Container).nativeElement)
         .not.toHaveClass(ClassModifier.Loading);
       expect(el(fixture, ClassElement.Container).nativeElement)
-        .not.toHaveClass(ClassModifier.LoadingFirst);
+        .not.toHaveClass(ClassModifier.Reloading);
 
     });
 
@@ -223,6 +256,7 @@ describe('ContainerResolverComponent', () => {
 
       expect(el(fixture, ClassElement.Data)).toBeFalsy();
       expect(el(fixture, ClassElement.Error)).toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading)).toBeFalsy();
 
       expect(el(fixture, ClassElement.Loading))
         .toBeTruthy();
@@ -236,7 +270,7 @@ describe('ContainerResolverComponent', () => {
       expect(el(fixture, ClassElement.Container).nativeElement)
         .toHaveClass(ClassModifier.Loading);
       expect(el(fixture, ClassElement.Container).nativeElement)
-        .toHaveClass(ClassModifier.LoadingFirst);
+        .not.toHaveClass(ClassModifier.Reloading);
 
     });
 
@@ -255,6 +289,7 @@ describe('ContainerResolverComponent', () => {
 
       expect(el(fixture, ClassElement.Data)).toBeFalsy();
       expect(el(fixture, ClassElement.Error)).toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading)).toBeFalsy();
 
       expect(el(fixture, ClassElement.Loading))
         .toBeTruthy();
@@ -268,16 +303,18 @@ describe('ContainerResolverComponent', () => {
       expect(el(fixture, ClassElement.Container).nativeElement)
         .toHaveClass(ClassModifier.Loading);
       expect(el(fixture, ClassElement.Container).nativeElement)
-        .toHaveClass(ClassModifier.LoadingFirst);
+        .not.toHaveClass(ClassModifier.Reloading);
 
     });
 
-    it('should display loader second time with data', () => {
+  });
+
+  describe('reloading', () => {
+
+    it('should display reloader', () => {
 
       component.changes = {
-        data: {
-          message: 'test',
-        },
+        data: true,
         error: null,
         loading: true,
       };
@@ -286,25 +323,58 @@ describe('ContainerResolverComponent', () => {
 
       expect(el(fixture, ClassElement.Data)).toBeTruthy();
       expect(el(fixture, ClassElement.Error)).toBeFalsy();
+      expect(el(fixture, ClassElement.Loading)).toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading)).toBeTruthy();
+      expect(el(fixture, ClassElement.Reloading).nativeElement.textContent)
+        .toContain('Reloading Override ...');
 
-      expect(el(fixture, ClassElement.Container).nativeElement)
-        .toHaveClass(ClassModifier.Loading);
-      expect(el(fixture, ClassElement.Container).nativeElement)
-        .not.toHaveClass(ClassModifier.LoadingFirst);
       expect(el(fixture, ClassElement.Container).nativeElement)
         .toHaveClass(ClassModifier.Success);
       expect(el(fixture, ClassElement.Container).nativeElement)
         .not.toHaveClass(ClassModifier.Failure);
+      expect(el(fixture, ClassElement.Container).nativeElement)
+        .not.toHaveClass(ClassModifier.Loading);
+      expect(el(fixture, ClassElement.Container).nativeElement)
+        .toHaveClass(ClassModifier.Reloading);
 
     });
 
-    it('should display loader second time with error', () => {
+    it('should display reloader default', () => {
+
+      component.changes = {
+        data: true,
+        error: null,
+        loading: true,
+      };
+
+      component.reloadingLabel = 'Reloading Label Override ...';
+      component.overrideReloadingTemplate = false;
+
+      fixture.detectChanges();
+
+      expect(el(fixture, ClassElement.Data)).toBeTruthy();
+      expect(el(fixture, ClassElement.Error)).toBeFalsy();
+      expect(el(fixture, ClassElement.Loading)).toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading)).toBeTruthy();
+      expect(el(fixture, ClassElement.Reloading).nativeElement.textContent)
+        .toContain(component.reloadingLabel);
+
+      expect(el(fixture, ClassElement.Container).nativeElement)
+        .toHaveClass(ClassModifier.Success);
+      expect(el(fixture, ClassElement.Container).nativeElement)
+        .not.toHaveClass(ClassModifier.Failure);
+      expect(el(fixture, ClassElement.Container).nativeElement)
+        .not.toHaveClass(ClassModifier.Loading);
+      expect(el(fixture, ClassElement.Container).nativeElement)
+        .toHaveClass(ClassModifier.Reloading);
+
+    });
+
+    it('should display reloader with error', () => {
 
       component.changes = {
         data: null,
-        error: {
-          message: 'test',
-        },
+        error: true,
         loading: true,
       };
 
@@ -312,15 +382,57 @@ describe('ContainerResolverComponent', () => {
 
       expect(el(fixture, ClassElement.Data)).toBeFalsy();
       expect(el(fixture, ClassElement.Error)).toBeTruthy();
+      expect(el(fixture, ClassElement.Loading)).toBeFalsy();
+      expect(el(fixture, ClassElement.Reloading)).toBeTruthy();
+      expect(el(fixture, ClassElement.Reloading).nativeElement.textContent)
+        .toContain('Reloading Override ...');
 
-      expect(el(fixture, ClassElement.Container).nativeElement)
-        .toHaveClass(ClassModifier.Loading);
-      expect(el(fixture, ClassElement.Container).nativeElement)
-        .not.toHaveClass(ClassModifier.LoadingFirst);
       expect(el(fixture, ClassElement.Container).nativeElement)
         .not.toHaveClass(ClassModifier.Success);
       expect(el(fixture, ClassElement.Container).nativeElement)
         .toHaveClass(ClassModifier.Failure);
+      expect(el(fixture, ClassElement.Container).nativeElement)
+        .not.toHaveClass(ClassModifier.Loading);
+      expect(el(fixture, ClassElement.Container).nativeElement)
+        .toHaveClass(ClassModifier.Reloading);
+
+    });
+
+    it('should display reloader at above position', () => {
+
+      component.changes = {
+        data: true,
+        error: null,
+        loading: true,
+      };
+
+      component.reloadingPosition = 'above';
+
+      fixture.detectChanges();
+
+      const children = el(fixture, ClassElement.Container).queryAll(By.css('div'));
+
+      expect(children[0]).toBe(el(fixture, ClassElement.Reloading));
+      expect(children[1]).toBe(el(fixture, ClassElement.Data));
+
+    });
+
+    it('should display reloader at below position', () => {
+
+      component.changes = {
+        data: true,
+        error: null,
+        loading: true,
+      };
+
+      component.reloadingPosition = 'below';
+
+      fixture.detectChanges();
+
+      const children = el(fixture, ClassElement.Container).queryAll(By.css('div'));
+
+      expect(children[0]).toBe(el(fixture, ClassElement.Data));
+      expect(children[1]).toBe(el(fixture, ClassElement.Reloading));
 
     });
 

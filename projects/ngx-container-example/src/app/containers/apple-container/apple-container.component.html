@@ -11,6 +11,7 @@
   [data]="data"
   [error]="error"
   [loading]="loading"
+  [reloading]="reloading"
 >
   <ng-template #data let-data="data">
     <app-apple [data]="data"></app-apple>
@@ -20,6 +21,9 @@
   </ng-template>
   <ng-template #loading>
     Loading Apple Variation #1 ...
+  </ng-template>
+  <ng-template #reloading>
+    Reloading Apple Variation #1 ...
   </ng-template>
 </ngx-container-resolver>
 
@@ -33,6 +37,8 @@
   [data]="data"
   [error]="error"
   [loading]="loading"
+  [reloading]="reloading"
+  [reloadingPosition]="'above'"
 >
   <ng-template #data>
     <app-apple [data]="state.data"></app-apple>
@@ -42,6 +48,9 @@
   </ng-template>
   <ng-template #loading>
     Loading Apple Variation #2 ...
+  </ng-template>
+  <ng-template #reloading>
+    Reloading Apple Variation #2 ...
   </ng-template>
 </ngx-container-resolver>
 
