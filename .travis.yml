@@ -16,5 +16,5 @@ install:
   - npm ci
 
 script:
-  - npm run lint ngx-container
-  - npm run test ngx-container -- --watch false --browsers ChromeHeadless
+  - npm run lint ngx-container-resolver
+  - npm run test ngx-container-resolver -- --watch false --browsers ChromeHeadless

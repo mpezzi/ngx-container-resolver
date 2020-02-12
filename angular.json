@@ -3,33 +3,33 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-container": {
+    "ngx-container-resolver": {
       "projectType": "library",
-      "root": "projects/ngx-container",
-      "sourceRoot": "projects/ngx-container/src",
+      "root": "projects/ngx-container-resolver",
+      "sourceRoot": "projects/ngx-container-resolver/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/ngx-container/tsconfig.lib.json",
-            "project": "projects/ngx-container/ng-package.json"
+            "tsConfig": "projects/ngx-container-resolver/tsconfig.lib.json",
+            "project": "projects/ngx-container-resolver/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-container/src/test.ts",
-            "tsConfig": "projects/ngx-container/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-container/karma.conf.js"
+            "main": "projects/ngx-container-resolver/src/test.ts",
+            "tsConfig": "projects/ngx-container-resolver/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-container-resolver/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-container/tsconfig.lib.json",
-              "projects/ngx-container/tsconfig.spec.json"
+              "projects/ngx-container-resolver/tsconfig.lib.json",
+              "projects/ngx-container-resolver/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -38,32 +38,32 @@
         }
       }
     },
-    "ngx-container-example": {
+    "ngx-container-resolver-example": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/ngx-container-example",
-      "sourceRoot": "projects/ngx-container-example/src",
+      "root": "projects/ngx-container-resolver-example",
+      "sourceRoot": "projects/ngx-container-resolver-example/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngx-container-example",
-            "index": "projects/ngx-container-example/src/index.html",
-            "main": "projects/ngx-container-example/src/main.ts",
-            "polyfills": "projects/ngx-container-example/src/polyfills.ts",
-            "tsConfig": "projects/ngx-container-example/tsconfig.app.json",
+            "outputPath": "dist/ngx-container-resolver-example",
+            "index": "projects/ngx-container-resolver-example/src/index.html",
+            "main": "projects/ngx-container-resolver-example/src/main.ts",
+            "polyfills": "projects/ngx-container-resolver-example/src/polyfills.ts",
+            "tsConfig": "projects/ngx-container-resolver-example/tsconfig.app.json",
             "aot": false,
             "assets": [
-              "projects/ngx-container-example/src/favicon.ico",
-              "projects/ngx-container-example/src/assets"
+              "projects/ngx-container-resolver-example/src/favicon.ico",
+              "projects/ngx-container-resolver-example/src/assets"
             ],
             "styles": [
-              "projects/ngx-container-example/src/styles.scss"
+              "projects/ngx-container-resolver-example/src/styles.scss"
             ],
             "scripts": []
           },
@@ -71,8 +71,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/ngx-container-example/src/environments/environment.ts",
-                  "with": "projects/ngx-container-example/src/environments/environment.prod.ts"
+                  "replace": "projects/ngx-container-resolver-example/src/environments/environment.ts",
+                  "with": "projects/ngx-container-resolver-example/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -102,33 +102,33 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-container-example:build"
+            "browserTarget": "ngx-container-resolver-example:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-container-example:build:production"
+              "browserTarget": "ngx-container-resolver-example:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-container-example:build"
+            "browserTarget": "ngx-container-resolver-example:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-container-example/src/test.ts",
-            "polyfills": "projects/ngx-container-example/src/polyfills.ts",
-            "tsConfig": "projects/ngx-container-example/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-container-example/karma.conf.js",
+            "main": "projects/ngx-container-resolver-example/src/test.ts",
+            "polyfills": "projects/ngx-container-resolver-example/src/polyfills.ts",
+            "tsConfig": "projects/ngx-container-resolver-example/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-container-resolver-example/karma.conf.js",
             "assets": [
-              "projects/ngx-container-example/src/favicon.ico",
-              "projects/ngx-container-example/src/assets"
+              "projects/ngx-container-resolver-example/src/favicon.ico",
+              "projects/ngx-container-resolver-example/src/assets"
             ],
             "styles": [
-              "projects/ngx-container-example/src/styles.scss"
+              "projects/ngx-container-resolver-example/src/styles.scss"
             ],
             "scripts": []
           }
@@ -137,9 +137,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-container-example/tsconfig.app.json",
-              "projects/ngx-container-example/tsconfig.spec.json",
-              "projects/ngx-container-example/e2e/tsconfig.json"
+              "projects/ngx-container-resolver-example/tsconfig.app.json",
+              "projects/ngx-container-resolver-example/tsconfig.spec.json",
+              "projects/ngx-container-resolver-example/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -149,16 +149,16 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/ngx-container-example/e2e/protractor.conf.js",
-            "devServerTarget": "ngx-container-example:serve"
+            "protractorConfig": "projects/ngx-container-resolver-example/e2e/protractor.conf.js",
+            "devServerTarget": "ngx-container-resolver-example:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-container-example:serve:production"
+              "devServerTarget": "ngx-container-resolver-example:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "ngx-container"
+  "defaultProject": "ngx-container-resolver"
 }

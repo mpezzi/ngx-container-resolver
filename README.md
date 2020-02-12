@@ -1,6 +1,6 @@
-# ngx-container
+# ngx-container-resolver
 
-[![Build Status](https://travis-ci.org/mpezzi/ngx-container.svg?branch=master)](https://travis-ci.org/mpezzi/ngx-container)
+[![Build Status](https://travis-ci.org/mpezzi/ngx-container-resolver.svg?branch=master)](https://travis-ci.org/mpezzi/ngx-container-resolver)
 
 A container library for Angular for handling loading of asynchronous data into components.
 
@@ -9,25 +9,25 @@ _Note: This is a proof-of-concept library at this point and is not recommended f
 ## Installation
 
 ```
-npm install ngx-container --save
+npm install ngx-container-resolver --save
 ```
 
 ## Usage
 
-Add `NgxContainerModule.forRoot()` to your AppModule imports
+Add `NgxContainerResolverModule.forRoot()` to your AppModule imports
 
 ```typescript
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgxContainerModule } from 'ngx-container';
+import { NgxContainerResolverModule } from 'ngx-container-resolver';
 
 @NgModule({
   imports: [
     BrowserModule,
     CommonModule,
     HttpClientModule,
-    NgxContainerModule.forRoot(),
+    NgxContainerResolverModule.forRoot(),
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
@@ -35,12 +35,12 @@ import { NgxContainerModule } from 'ngx-container';
 export class AppModule { }
 ```
 
-Inject the `ContainerService` into your container components, create a new resolver, and pass the `resolver.changes` observable to `<ngx-container [changes]="resolver.changes | async"></ngx-container>` component. This will handle displaying the loaded, error, and loading states in your component. You can override the default templates provided by the components.
+Inject the `ContainerService` into your container components, create a new resolver, and pass the `resolver.changes` observable to `<ngx-container-resolver [changes]="resolver.changes | async"></ngx-container-resolver>` component. This will handle displaying the loaded, error, and loading states in your component. You can override the default templates provided by the components.
 
 ```typescript
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Resolver, ContainerService, ofInstance } from 'ngx-container';
+import { Resolver, ContainerService, ofInstance } from 'ngx-container-resolver';
 import { TodoAdded, TodoRemoved, TodoReload } from '../events';
 
 @Component({
@@ -128,7 +128,7 @@ Use the `ContainerService` to reload resolvers from other container components o
 
 ```typescript
 import { Component } from '@angular/core';
-import { ContainerService } from 'ngx-container';
+import { ContainerService } from 'ngx-container-resolver';
 import { TodoReload } from '../events';
 
 @Component({

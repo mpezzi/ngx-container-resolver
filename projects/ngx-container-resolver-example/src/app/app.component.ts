@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContainerChanges, ContainerService } from 'projects/ngx-container/src/public-api';
+import { ContainerChanges, ContainerService } from 'projects/ngx-container-resolver/src/public-api';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -16,11 +16,11 @@ import { ContainerService } from './ngx-container.service';
     ContainerResolverComponent,
   ],
 })
-export class NgxContainerModule {
+export class NgxContainerResolverModule {
 
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: NgxContainerModule,
+      ngModule: NgxContainerResolverModule,
       providers: [
         ContainerService,
         ContainerEventBusService,

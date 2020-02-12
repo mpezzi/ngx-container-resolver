@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NgxContainerModule } from './ngx-container.module';
+import { NgxContainerResolverModule } from './ngx-container-resolver.module';
 import { ContainerService } from './ngx-container.service';
 
 describe('ContainerService', () => {
@@ -16,7 +16,7 @@ describe('ContainerService', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        NgxContainerModule.forRoot(),
+        NgxContainerResolverModule.forRoot(),
       ],
     });
 

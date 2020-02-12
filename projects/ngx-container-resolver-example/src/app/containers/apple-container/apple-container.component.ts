@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ContainerService, Resolver, ofInstance } from 'projects/ngx-container/src/public-api';
+import { ContainerService, Resolver, ofInstance } from 'projects/ngx-container-resolver/src/public-api';
 import { Subscription } from 'rxjs';
 
 import { AppleAddedEvent, AppleRemovedEvent, OrangeAddedEvent, OrangeRemovedEvent } from '../../events';

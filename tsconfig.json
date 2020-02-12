@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "ngx-container": [
-        "dist/ngx-container"
+      "ngx-container-resolver": [
+        "dist/ngx-container-resolver"
       ],
-      "ngx-container/*": [
-        "dist/ngx-container/*"
+      "ngx-container-resolver/*": [
+        "dist/ngx-container-resolver/*"
       ]
     }
   },

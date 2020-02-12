@@ -17,16 +17,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'ngx-container-example'`, () => {
+  it(`should have as title 'ngx-container-resolver-example'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('ngx-container-example');
+    expect(app.title).toEqual('ngx-container-resolver-example');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('ngx-container-example app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('ngx-container-resolver-example app is running!');
   });
 });
