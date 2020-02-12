@@ -3,5 +3,9 @@
   "dest": "../../dist/ngx-container-resolver",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "uuidv4",
+    "tslib"
+  ]
 }
