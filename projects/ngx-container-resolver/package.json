@@ -1,7 +1,7 @@
 {
   "name": "ngx-container-resolver",
   "description": "A container library for Angular for handling loading of asynchronous data into components.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "author": "Michael Pezzi <mike@pezz.io>",
   "homepage": "https://github.com/mpezzi/ngx-container-resolver",
